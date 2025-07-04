@@ -133,41 +133,35 @@ export const ViewSimulator = () => {
   const progressPercentage = Math.min((currentProgress / targetViews) * 100, 100);
 
   return (
-    <div className="space-y-8 animate-fade-in">
-      {/* Hero Control Panel */}
-      <Card className="relative overflow-hidden bg-gradient-surface border-accent/20 shadow-glow">
-        <div className="absolute inset-0 bg-gradient-glass" />
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-brand animate-shimmer" />
-        
-        <CardHeader className="relative">
-          <CardTitle className="flex items-center gap-3 text-2xl">
-            <div className="p-2 rounded-xl bg-youtube-gradient shadow-glow">
-              <Zap className="h-6 w-6 text-white" />
+    <div className="space-y-6">
+      {/* Control Panel */}
+      <Card className="bg-card border-border">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3 text-xl">
+            <div className="p-2 rounded-lg bg-primary/10">
+              <Zap className="h-5 w-5 text-primary" />
             </div>
-            <span className="bg-gradient-brand bg-clip-text text-transparent">
-              View Simulation Control Center
-            </span>
+            View Simulation Dashboard
           </CardTitle>
-          <p className="text-muted-foreground">
-            Generate realistic view patterns with advanced simulation technology
+          <p className="text-muted-foreground text-sm">
+            Generate realistic view patterns for educational purposes
           </p>
         </CardHeader>
         
-        <CardContent className="relative space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="target-views" className="text-sm font-medium">Target Views</Label>
+              <Label htmlFor="target-views" className="text-sm">Target Views</Label>
               <Input
                 id="target-views"
                 type="number"
                 value={targetViews}
                 onChange={(e) => setTargetViews(Number(e.target.value))}
                 disabled={isRunning}
-                className="bg-accent/50 border-accent/30 focus:border-primary/50 transition-all"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="views-per-minute" className="text-sm font-medium">Views per Minute</Label>
+              <Label htmlFor="views-per-minute" className="text-sm">Views per Minute</Label>
               <Input
                 id="views-per-minute"
                 type="number"
@@ -176,17 +170,13 @@ export const ViewSimulator = () => {
                 disabled={isRunning}
                 min="1"
                 max="60"
-                className="bg-accent/50 border-accent/30 focus:border-primary/50 transition-all"
               />
             </div>
-            <div className="flex items-end gap-3">
+            <div className="flex items-end gap-2">
               <Button
                 onClick={isRunning ? stopSimulation : startSimulation}
-                className={`flex-1 h-11 ${
-                  isRunning 
-                    ? "bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700" 
-                    : "bg-youtube-gradient hover:shadow-glow"
-                } transition-all duration-300 transform hover:scale-105`}
+                className="flex-1"
+                variant={isRunning ? "destructive" : "default"}
               >
                 {isRunning ? <Pause className="h-4 w-4 mr-2" /> : <Play className="h-4 w-4 mr-2" />}
                 {isRunning ? "Pause" : "Start"}
@@ -194,168 +184,117 @@ export const ViewSimulator = () => {
               <Button 
                 onClick={resetSimulation} 
                 variant="outline"
-                className="h-11 border-accent/30 hover:bg-accent/50 transition-all duration-300"
+                size="icon"
               >
                 <RotateCcw className="h-4 w-4" />
               </Button>
             </div>
           </div>
           
-          {/* Enhanced Progress Bar */}
-          <div className="relative">
-            <div className="flex justify-between items-center mb-3">
-              <div className="flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium">Simulation Progress</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">
-                  {currentProgress} / {targetViews}
-                </span>
-                <Badge variant="secondary" className="bg-success/20 text-success border-success/30">
-                  {progressPercentage.toFixed(1)}%
-                </Badge>
-              </div>
+          {/* Progress Bar */}
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm">Progress</span>
+              <span className="text-sm text-muted-foreground">
+                {currentProgress} / {targetViews} ({progressPercentage.toFixed(1)}%)
+              </span>
             </div>
-            <div className="relative w-full bg-accent/30 rounded-full h-3 overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-accent/40" />
+            <div className="w-full bg-secondary rounded-full h-2">
               <div 
-                className="bg-youtube-gradient h-full rounded-full transition-all duration-700 ease-out relative overflow-hidden"
+                className="bg-primary h-2 rounded-full transition-all duration-300"
                 style={{ width: `${progressPercentage}%` }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
-              </div>
+              />
             </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Enhanced Statistics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="relative overflow-hidden bg-gradient-surface border-accent/20 hover:shadow-glow transition-all duration-300 animate-float">
-          <div className="absolute inset-0 bg-gradient-glass" />
-          <CardContent className="relative p-6">
+      {/* Statistics Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card>
+          <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Views</p>
-                <p className="text-3xl font-bold bg-gradient-brand bg-clip-text text-transparent">
-                  {currentProgress.toLocaleString()}
-                </p>
-                <p className="text-xs text-success flex items-center gap-1 mt-1">
-                  <TrendingUp className="h-3 w-3" />
-                  +{Math.floor(Math.random() * 20) + 5}% growth
-                </p>
+                <p className="text-sm text-muted-foreground">Total Views</p>
+                <p className="text-2xl font-bold">{currentProgress.toLocaleString()}</p>
               </div>
-              <div className="p-3 rounded-xl bg-youtube-gradient shadow-glow">
-                <Users className="h-6 w-6 text-white" />
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Users className="h-5 w-5 text-primary" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="relative overflow-hidden bg-gradient-surface border-accent/20 hover:shadow-glow transition-all duration-300 animate-float" style={{animationDelay: '0.1s'}}>
-          <div className="absolute inset-0 bg-gradient-glass" />
-          <CardContent className="relative p-6">
+        <Card>
+          <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Avg Watch Time</p>
-                <p className="text-3xl font-bold text-foreground">{avgWatchTime}s</p>
-                <p className="text-xs text-success flex items-center gap-1 mt-1">
-                  <Clock className="h-3 w-3" />
-                  Quality engagement
-                </p>
+                <p className="text-sm text-muted-foreground">Avg Watch Time</p>
+                <p className="text-2xl font-bold">{avgWatchTime}s</p>
               </div>
-              <div className="p-3 rounded-xl bg-success-gradient shadow-success">
-                <Activity className="h-6 w-6 text-white" />
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Clock className="h-5 w-5 text-primary" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="relative overflow-hidden bg-gradient-surface border-accent/20 hover:shadow-glow transition-all duration-300 animate-float" style={{animationDelay: '0.2s'}}>
-          <div className="absolute inset-0 bg-gradient-glass" />
-          <CardContent className="relative p-6">
+        <Card>
+          <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Unique IPs</p>
-                <p className="text-3xl font-bold text-foreground">{new Set(views.map(v => v.ip)).size}</p>
-                <p className="text-xs text-success flex items-center gap-1 mt-1">
-                  <Globe className="h-3 w-3" />
-                  Global reach
-                </p>
+                <p className="text-sm text-muted-foreground">Unique IPs</p>
+                <p className="text-2xl font-bold">{new Set(views.map(v => v.ip)).size}</p>
               </div>
-              <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-glow">
-                <Globe className="h-6 w-6 text-white" />
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Globe className="h-5 w-5 text-primary" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="relative overflow-hidden bg-gradient-surface border-accent/20 hover:shadow-glow transition-all duration-300 animate-float" style={{animationDelay: '0.3s'}}>
-          <div className="absolute inset-0 bg-gradient-glass" />
-          <CardContent className="relative p-6">
+        <Card>
+          <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Device Types</p>
-                <p className="text-3xl font-bold text-foreground">{Object.keys(getDeviceStats()).length}</p>
-                <p className="text-xs text-success flex items-center gap-1 mt-1">
-                  <Monitor className="h-3 w-3" />
-                  Multi-platform
-                </p>
+                <p className="text-sm text-muted-foreground">Device Types</p>
+                <p className="text-2xl font-bold">{Object.keys(getDeviceStats()).length}</p>
               </div>
-              <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 shadow-glow">
-                <Monitor className="h-6 w-6 text-white" />
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Monitor className="h-5 w-5 text-primary" />
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Enhanced Analytics Section */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        {/* Real-time View Feed */}
-        <Card className="relative overflow-hidden bg-gradient-surface border-accent/20 shadow-glow">
-          <div className="absolute inset-0 bg-gradient-glass" />
-          <CardHeader className="relative border-b border-accent/20">
-            <CardTitle className="flex items-center gap-3">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
-                <Eye className="h-5 w-5 text-primary" />
-              </div>
-              Live View Stream
+      {/* Analytics Section */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        {/* Live View Stream */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Eye className="h-5 w-5 text-primary" />
+              Recent Views
             </CardTitle>
           </CardHeader>
-          <CardContent className="relative p-0">
-            <div className="max-h-96 overflow-y-auto custom-scrollbar">
-              {views.slice(0, 12).map((view, index) => (
+          <CardContent className="p-0">
+            <div className="max-h-80 overflow-y-auto">
+              {views.slice(0, 8).map((view) => (
                 <div 
                   key={view.id} 
-                  className="flex items-center justify-between p-4 border-b border-accent/10 hover:bg-accent/20 transition-all duration-200 animate-scale-in"
-                  style={{animationDelay: `${index * 0.05}s`}}
+                  className="flex items-center justify-between p-3 border-b last:border-b-0 hover:bg-muted/50"
                 >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <Badge 
-                        variant="outline" 
-                        className={`border-0 ${
-                          view.device === 'Desktop' ? 'bg-blue-500/20 text-blue-400' :
-                          view.device === 'Mobile' ? 'bg-green-500/20 text-green-400' :
-                          'bg-purple-500/20 text-purple-400'
-                        }`}
-                      >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <Badge variant="secondary" className="text-xs">
                         {view.device}
                       </Badge>
                       <span className="text-sm font-medium">{view.country}</span>
                     </div>
-                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <Globe className="h-3 w-3" />
-                        {view.ip}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        {view.watchTime}s
-                      </span>
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                      <span>{view.ip}</span>
+                      <span>{view.watchTime}s</span>
                       <span>{view.referrer}</span>
                     </div>
                   </div>
@@ -365,47 +304,38 @@ export const ViewSimulator = () => {
                 </div>
               ))}
               {views.length === 0 && (
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-brand flex items-center justify-center animate-pulse-glow">
-                    <Eye className="h-8 w-8 text-white" />
-                  </div>
-                  <p className="text-muted-foreground">
-                    Ready to simulate views! Hit start to begin.
-                  </p>
+                <div className="text-center py-8 text-muted-foreground">
+                  No views yet. Start the simulation to see data.
                 </div>
               )}
             </div>
           </CardContent>
         </Card>
 
-        {/* Enhanced Analytics Dashboard */}
-        <Card className="relative overflow-hidden bg-gradient-surface border-accent/20 shadow-glow">
-          <div className="absolute inset-0 bg-gradient-glass" />
-          <CardHeader className="relative border-b border-accent/20">
-            <CardTitle className="flex items-center gap-3">
+        {/* Analytics Dashboard */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
               <Activity className="h-5 w-5 text-primary" />
-              Analytics Dashboard
+              Analytics
             </CardTitle>
           </CardHeader>
-          <CardContent className="relative p-6 space-y-6">
+          <CardContent className="space-y-6">
             {/* Top Countries */}
             <div>
-              <h4 className="font-semibold mb-4 flex items-center gap-2">
-                <Globe className="h-4 w-4 text-primary" />
-                Top Countries
-              </h4>
-              <div className="space-y-3">
-                {getCountryStats().map(([country, count], index) => (
+              <h4 className="font-medium mb-3">Top Countries</h4>
+              <div className="space-y-2">
+                {getCountryStats().map(([country, count]) => (
                   <div key={country} className="flex items-center justify-between">
-                    <span className="text-sm font-medium">{country}</span>
+                    <span className="text-sm">{country}</span>
                     <div className="flex items-center gap-2">
-                      <div className="w-16 h-2 bg-accent/30 rounded-full overflow-hidden">
+                      <div className="w-12 h-1.5 bg-secondary rounded-full overflow-hidden">
                         <div 
-                          className="h-full bg-gradient-brand rounded-full transition-all duration-700"
+                          className="h-full bg-primary rounded-full"
                           style={{ width: `${(count / views.length) * 100}%` }}
                         />
                       </div>
-                      <span className="text-sm text-muted-foreground min-w-8">{count}</span>
+                      <span className="text-sm text-muted-foreground w-6">{count}</span>
                     </div>
                   </div>
                 ))}
@@ -414,22 +344,19 @@ export const ViewSimulator = () => {
             
             {/* Device Distribution */}
             <div>
-              <h4 className="font-semibold mb-4 flex items-center gap-2">
-                <Monitor className="h-4 w-4 text-primary" />
-                Device Distribution
-              </h4>
-              <div className="space-y-3">
+              <h4 className="font-medium mb-3">Device Types</h4>
+              <div className="space-y-2">
                 {Object.entries(getDeviceStats()).map(([device, count]) => (
                   <div key={device} className="flex items-center justify-between">
-                    <span className="text-sm font-medium">{device}</span>
+                    <span className="text-sm">{device}</span>
                     <div className="flex items-center gap-2">
-                      <div className="w-16 h-2 bg-accent/30 rounded-full overflow-hidden">
+                      <div className="w-12 h-1.5 bg-secondary rounded-full overflow-hidden">
                         <div 
-                          className="h-full bg-success-gradient rounded-full transition-all duration-700"
+                          className="h-full bg-primary rounded-full"
                           style={{ width: `${(count / views.length) * 100}%` }}
                         />
                       </div>
-                      <span className="text-sm text-muted-foreground min-w-8">{count}</span>
+                      <span className="text-sm text-muted-foreground w-6">{count}</span>
                     </div>
                   </div>
                 ))}
@@ -437,18 +364,11 @@ export const ViewSimulator = () => {
             </div>
 
             {/* Educational Notice */}
-            <div className="relative p-4 rounded-xl bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20">
-              <div className="flex items-start gap-3">
-                <div className="p-1 rounded-full bg-amber-500/20">
-                  <Zap className="h-4 w-4 text-amber-400" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-amber-200 mb-1">Educational Simulation</p>
-                  <p className="text-xs text-amber-300/80">
-                    This tool generates synthetic data for learning purposes. No real traffic is sent to any platform.
-                  </p>
-                </div>
-              </div>
+            <div className="p-3 rounded-lg bg-muted/50 border border-border">
+              <p className="text-sm font-medium mb-1">Educational Simulation</p>
+              <p className="text-xs text-muted-foreground">
+                This generates synthetic data for learning. No real traffic is sent.
+              </p>
             </div>
           </CardContent>
         </Card>
